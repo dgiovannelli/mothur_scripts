@@ -3,10 +3,9 @@
 ## 21 January 2018
 
 ## NOTES
-#The pipeline is optimized for our *polyphemus* server with 16 cores. Change the parameters accordingly.
+#The pipeline is optimized for our *polyphemus* server with 16 cores. Change the parameters accordingly. It also assumes a fasta file called seqs.fasta and a group file called seqs.groups formatted in mothur compliant format.
 
 ##PIPELINE
-#NOTES
 
 #Extract the sequence and quality score data from your fastq files, create the reverse complement of the reverse read and then join the reads into contigs. Uncomment and use this option only if starting from multiple fastq.
 #make.contigs(file=seqs.files, processors=16)
