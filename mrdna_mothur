@@ -1,0 +1,33 @@
+#! /bin/bash
+
+## 25 January 2018 - Donato Giovannelli
+## This script formats a Mr.DNA type fasta file after demultiplexing and QC and outputs mothur compliant sequence and groups files. The starting file is assumend to be a fasta formatted file containing multiple sample sequences in the form of:
+# >samplename::name:of:the:sequence more:information:like:barcode
+# AATTCCGG...
+## and will output a seqs.fasta file like
+# >name_of_the_sequence
+# AATTCCGG..
+## and a seqs.groups files
+# name_of_the_sequence  samplename
+
+set -e
+namefile=$1
+
+sed 's/::/_/g' $namefile > ${namefile}.tmp.fasta
+
+## Create the temporarygroup and name files
+grep ">" ${namefile}.tmp.fasta | sed 's/>//g' | cut -d_ -f1 > ${namefile}.groups
+
+grep ">" ${namefile}.tmp.fasta | sed 's/>//g' | cut -d_ -f2 | sed 's/\s/-/g' | cut -d- -f1 | sed 's/:/_/g' > ${namefile}.names
+
+## Creates the final seqs.fasta file containing the formatted sequences and sequence names according to mothur
+sed 's/^[^_]*_/>/g' ${namefile}.tmp.fasta | sed 's/:/_/g' > seqs.fasta
+
+## Merge the name and group function to create the final seqs.groups file according to mothur
+
+:|paste -d'\t' ${namefile}.names - | paste -d' ' - ${namefile}.groups  > seqs.groups
+
+## Cleanup temporary files
+rm ${namefile}.tmp.fasta
+rm ${namefile}.groups
+rm ${namefile}.names

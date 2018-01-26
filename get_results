@@ -1,0 +1,15 @@
+#! /bin/bash
+
+echo "Generating result files and zipping them"
+
+#Generating results file and zipping them
+mv seqs.good.unique.good.filter.unique.precluster.pick.opti.unique_list.0.03.cons.pick.taxonomy > seqs_results.taxonomy
+mv seqs.good.unique.good.filter.unique.precluster.pick.opti.unique_list.0.03.pick.shared  > seqs_results.shared
+mv seqs.good.unique.good.filter.unique.precluster.pick.opti.unique_list.0.03.biom  > seqs_results.biom
+mv seqs.good.unique.good.filter.unique.precluster.pick.opti.unique_list.0.03.rep.fasta > seqs_rep_set.fasta
+
+zip mothur.results.zip seqs_results.taxonomy seqs_results.shared seqs_results.biom seqs_rep_set.fasta
+
+echo
+clear
+echo "Result file mothur.results.zip generated and ready for transfer"
